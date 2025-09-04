@@ -1,0 +1,47 @@
+{
+  "tickers": [
+    "AAPL",
+    "O",
+    "WPY.F",
+    "QDVX.DE"
+  ],
+  "threshold_pct": 0.060000000000000005,
+  "ntfy": {
+    "server": "https://ntfy.sh",
+    "topic": "${NTFY_TOPIC}"
+  },
+  "log": {
+    "level": "INFO",
+    "file": "alerts.log"
+  },
+  "state_file": "alert_state.json",
+  "market_hours": {
+    "timezone": "America/New_York",
+    "open": "09:30",
+    "close": "16:00",
+    "active_days": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "pause_on_closed": true
+  },
+  "test": {
+    "enabled": false,
+    "dry_run": false,
+    "bypass_market_hours": true,
+    "force_delta_pct": 4.3,
+    "force_run_outside_hours": false
+  },
+  "news": {
+    "enabled": true,
+    "max_items": 3,
+    "lookback_hours": 12,
+    "lang": "de",
+    "country": "DE",
+    "fallback_lang": "en",
+    "fallback_country": "US"
+  }
+}

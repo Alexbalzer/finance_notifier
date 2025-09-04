@@ -1,0 +1,48 @@
+# ---- Python basics ----
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+*.manifest
+*.spec
+
+# ---- Virtual environment ----
+.venv/
+venv/
+env/
+ENV/
+*.env.bak
+*.env.local
+
+# ---- Project specific ----
+# Sensitive config
+.env
+alert_state.json
+
+# Logs
+*.log
+logs/
+alerts.log
+
+# IDE/editor configs
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- Testing & coverage ----
+.coverage
+.tox/
+pytest_cache/
+.pytest_cache/
+htmlcov/
+.cache/
+company_cache.json

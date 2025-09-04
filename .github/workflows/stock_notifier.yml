@@ -1,0 +1,59 @@
+name: Stock Notifier
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"   # läuft alle 30 Minuten (UTC!)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: stock-notifier
+      cancel-in-progress: false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Restore alert_state.json (cache)
+        uses: actions/cache@v4
+        with:
+          path: alert_state.json
+          key: alert-state-${{ github.run_number }}
+          restore-keys: |
+            alert-state-
+
+      - name: Run notifier
+        env:
+          # Secrets/ENV für Platzhalter in config.json
+          NTFY_SERVER: https://ntfy.sh
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          LOG_LEVEL: INFO
+        run: |
+          python main.py
+
+      - name: Upload logs & state (optional)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: run-${{ github.run_id }}
+          path: |
+            alerts.log
+            alert_state.json
+          if-no-files-found: ignore
