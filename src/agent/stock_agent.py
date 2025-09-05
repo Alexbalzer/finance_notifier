@@ -246,16 +246,20 @@ def run_agent_once(
 # ----------------------------- CLI-Einstieg -----------------------------
 if __name__ == "__main__":
     # Minimaler Loader deiner config.json
-    cfg_path = Path("config.json")
-    cfg = json.loads(cfg_path.read_text(encoding="utf-8"))
+    from src.app.config import load_config
+    cfg = load_config("config.json")
+
+    # cfg_path = Path("config.json")
+    # cfg = json.loads(cfg_path.read_text(encoding="utf-8"))
 
     run_agent_once(
-        tickers=cfg["tickers"],
-        threshold_pct=float(cfg["threshold_pct"]),
-        ntfy_server=cfg["ntfy"]["server"],
-        ntfy_topic=os.getenv("NTFY_TOPIC", cfg["ntfy"]["topic"]),
-        state_file=Path(cfg.get("state_file", "alert_state.json")),
-        market_hours_cfg=cfg.get("market_hours", {}),
-        news_cfg=cfg.get("news", {"enabled": False}),
-        test_cfg=cfg.get("test", {}),
-    )
+    tickers=cfg["tickers"],
+    threshold_pct=float(cfg["threshold_pct"]),
+    ntfy_server=cfg["ntfy"]["ntfy_server"] if "ntfy_server" in cfg.get("ntfy", {}) else cfg["ntfy"]["server"],
+    ntfy_topic=cfg["ntfy"]["topic"],  # bereits aufgelöst!
+    state_file=Path(cfg.get("state_file", "alert_state.json")),
+    market_hours_cfg=cfg.get("market_hours", {}),
+    news_cfg=cfg.get("news", {"enabled": False}),
+    test_cfg=cfg.get("test", {}),
+)
+

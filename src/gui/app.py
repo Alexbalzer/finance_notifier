@@ -169,4 +169,36 @@ if st.button("💾 Speichern"):
     st.success("Konfiguration gespeichert.")
     st.code(json.dumps(new_cfg, ensure_ascii=False, indent=2), language="json")
 
+# --- Utilities (am Ende der Datei einfügen) ---
+import sys, subprocess
+from pathlib import Path
+
+st.divider()
+col1, col2 = st.columns(2)
+
+with col1:
+    if st.button("🧹 Alert-State zurücksetzen"):
+        state_path = Path(cfg.get("state_file", "alert_state.json"))
+        try:
+            state_path.unlink(missing_ok=True)
+            st.success(f"{state_path} gelöscht.")
+        except Exception as e:
+            st.error(f"Konnte {state_path} nicht löschen: {e}")
+
+with col2:
+    if st.button("▶️ Jetzt prüfen (main.py)"):
+        try:
+            # startet deinen normalen Notifier einmalig
+            res = subprocess.run([sys.executable, "main.py"], capture_output=True, text=True)
+            st.code((res.stdout or "")[-3000:], language="bash")
+            if res.returncode == 0:
+                st.success("Run erfolgreich.")
+            else:
+                st.error(f"Run fehlgeschlagen (Exit {res.returncode}).")
+                if res.stderr:
+                    st.code(res.stderr[-3000:], language="bash")
+        except Exception as e:
+            st.error(f"Fehler beim Starten: {e}")
+
+
 st.caption("Tipp: `streamlit run streamlit_app.py` starten. Cron bei GitHub Actions läuft in UTC.")
