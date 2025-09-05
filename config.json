@@ -5,7 +5,7 @@
     "WPY.F",
     "QDVX.DE"
   ],
-  "threshold_pct": 0.060000000000000005,
+  "threshold_pct": 0.01,
   "ntfy": {
     "server": "https://ntfy.sh",
     "topic": "${NTFY_TOPIC}"
