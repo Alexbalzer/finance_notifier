@@ -51,8 +51,7 @@ source .venv/bin/activate   # Linux/macOS
 
 pip install -r requirements.txt
 
-3. CSV-Datei bereitstellen:
-    Lege die Datei ´german_credit_data.csv´ in das Projektverzeichnis.
+3
 
 ## ▶️ Starten
 - A) Notifier einmalig ausführen
